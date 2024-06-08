@@ -11,6 +11,10 @@ void main() {
   runApp(
        MaterialApp(
          darkTheme: ThemeData.dark().copyWith(
+           inputDecorationTheme: const InputDecorationTheme().copyWith(
+             fillColor: kDarkColorScheme.primaryContainer,
+             border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+           ),
                 colorScheme: kDarkColorScheme,
            cardTheme: const CardTheme().copyWith(
              color: kDarkColorScheme.primaryContainer,

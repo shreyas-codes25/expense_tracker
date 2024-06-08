@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/chart/chart.dart';
 
 import 'package:expense_tracker/widgets/new-expense-screen/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
         builder: (ctx) => NewExpense(
               onAddExpense: _addExpense,
@@ -41,7 +42,7 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
-  void _removeExpense(Expense value){
+  void _removeExpense(Expense value) {
     final expenseIndex = _registeredExpenses.indexOf(value);
     setState(() {
       _registeredExpenses.remove(value);
@@ -53,9 +54,9 @@ class _ExpensesState extends State<Expenses> {
         duration: const Duration(seconds: 3),
         action: SnackBarAction(
           label: "Undo",
-          onPressed: (){
+          onPressed: () {
             setState(() {
-              _registeredExpenses.insert(expenseIndex,value);
+              _registeredExpenses.insert(expenseIndex, value);
             });
           },
         ),
@@ -68,8 +69,9 @@ class _ExpensesState extends State<Expenses> {
     Widget mainContent = const Center(
       child: Text("No Expense Found. Start adding some"),
     );
-    if(_registeredExpenses.isNotEmpty){
-      mainContent = ExpensesList(onRemoveExpense: _removeExpense, expenses: _registeredExpenses);
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+          onRemoveExpense: _removeExpense, expenses: _registeredExpenses);
     }
     return Scaffold(
         appBar: AppBar(
@@ -84,6 +86,7 @@ class _ExpensesState extends State<Expenses> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Chart(expenses: _registeredExpenses),
               const Text("Current Chart"),
               Expanded(child: mainContent),
             ],

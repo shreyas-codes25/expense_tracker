@@ -75,7 +75,9 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: const InputDecoration(
               label: Text("Enter Title"),
-            ),
+
+
+            ),style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(
             height: 12,
@@ -84,12 +86,14 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               Expanded(
                 child: TextField(
+
                   controller: _amountController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     prefixText: "Rs.",
                     label: Text("Enter Amount"),
                   ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
               const SizedBox(
@@ -101,7 +105,7 @@ class _NewExpenseState extends State<NewExpense> {
                   children: [
                     Text(_selectedDate == null
                         ? "No Selected Date"
-                        : formatter.format(_selectedDate!)),
+                        : formatter.format(_selectedDate!),style: TextStyle(color: Theme.of(context).colorScheme.primary),),
                     IconButton(
                         onPressed: _presentDatePicker,
                         icon: const Icon(Icons.calendar_month))

@@ -20,13 +20,13 @@ class ExpensesItem extends StatelessWidget {
             Row(
               children: [
 
-                Text("Rs.${expense.amount}"),
+                Text("Rs.${expense.amount}",style: TextStyle(color: Theme.of(context).colorScheme.primary),),
                 const Spacer(),
                 Row(
                   children: [
-                    Icon(categoryIcons[expense.category]),
+                    Icon(categoryIcons[expense.category],color: Theme.of(context).colorScheme.primary,),
                     const SizedBox(width: 4,),
-                    Text(expense.formattedDate),
+                    Text(expense.formattedDate,style: TextStyle(color: Theme.of(context).colorScheme.primary),),
                   ],
                 )
               ],
