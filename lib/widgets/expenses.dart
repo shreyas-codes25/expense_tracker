@@ -26,15 +26,58 @@ class _ExpensesState extends State<Expenses> {
         date: DateTime.now()),
   ];
 
-  void _openAddExpenseOverlay(){
-      showModalBottomSheet(context: context, builder: (ctx) =>const NewExpense());
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+        context: context,
+        builder: (ctx) => NewExpense(
+              onAddExpense: _addExpense,
+            ));
   }
+
+  void _addExpense(Expense value) {
+    setState(() {
+      _registeredExpenses.add(value);
+    });
+  }
+
+  void _removeExpense(Expense value){
+    final expenseIndex = _registeredExpenses.indexOf(value);
+    setState(() {
+      _registeredExpenses.remove(value);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text("Expense Deleted"),
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: "Undo",
+          onPressed: (){
+            setState(() {
+              _registeredExpenses.insert(expenseIndex,value);
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text("No Expense Found. Start adding some"),
+    );
+    if(_registeredExpenses.isNotEmpty){
+      mainContent = ExpensesList(onRemoveExpense: _removeExpense, expenses: _registeredExpenses);
+    }
     return Scaffold(
         appBar: AppBar(
-          title:const Text("Flutter Expense Tracker"),
-          actions: [IconButton(onPressed:_openAddExpenseOverlay, icon: const Icon(Icons.add))],
+          title: const Text("Flutter Expense Tracker"),
+          actions: [
+            IconButton(
+                onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
+          ],
         ),
         body: Center(
           child: Column(
@@ -42,7 +85,7 @@ class _ExpensesState extends State<Expenses> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text("Current Chart"),
-              Expanded(child: ExpensesList(expenses: _registeredExpenses)),
+              Expanded(child: mainContent),
             ],
           ),
         ));
